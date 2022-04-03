@@ -1,5 +1,6 @@
 package com.jhs.book.springboot.web;
 
+import com.jhs.book.springboot.config.auth.LoginUser;
 import com.jhs.book.springboot.config.auth.dto.SessionUser;
 import com.jhs.book.springboot.service.posts.PostsService;
 import com.jhs.book.springboot.web.dto.PostsResponseDto;
@@ -19,18 +20,10 @@ public class IndexController {
     private final HttpSession httpSession;
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(Model model, @LoginUser SessionUser user) {
         model.addAttribute("posts", postsService.findAllDesc());
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
 
         if(user != null) {
-            /*
-            System.out.println("-------------------");
-            System.out.println(user.getName());
-            System.out.println(user.getEmail());
-            System.out.println(user.getPicture());
-            System.out.println("-------------------");
-             */
             model.addAttribute("userName", user.getName());
         }
 
